@@ -27,7 +27,7 @@ jobs:
     - name: Copy build to Private VM
       run: |
         echo "Copying build to Private VM..."
-        rm -r azureuser@10.0.0.4:/home/azureuser/git_app_1/dist/*
+        rm -r azureuser@10.0.0.4:/home/azureuser/git_app_1/dist/
         scp -r ./dist/* azureuser@10.0.0.4:/home/azureuser/git_app_1/dist/
 
     - name: Restart Nginx on Private VM
