@@ -1,0 +1,35 @@
+name: Deploy via Self-hosted Runner
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: [self-hosted]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build React App
+      run: npm run build
+
+    - name: Copy build to Private VM
+      run: |
+        echo "Copying build to Private VM..."
+        scp -r ./dist/* azureuser@10.0.0.4:/home/azureuser/git_app_1/dist/
+
+    - name: Restart Nginx on Private VM
+      run: |
+        echo "Restarting Nginx on Private VM..."
+        ssh azureuser@10.0.0.4 'sudo systemctl restart nginx'
