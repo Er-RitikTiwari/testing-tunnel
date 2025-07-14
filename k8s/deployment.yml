@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: git-deployment
+  labels:
+    app: github-app
+  namespace: new-assignment  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: github-app
+  template:
+    metadata:
+      labels:
+        app: github-app
+    spec:
+      containers:
+      - name: github-app
+        image: ritikkkk/github_app:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5173
