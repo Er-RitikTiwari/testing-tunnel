@@ -26,11 +26,11 @@ jobs:
 
     - name: Copy build to Private VM
       run: |
-        echo "Copying build to Private VM..."
-        ssh azureuser@10.0.0.4
-        rm -r /home/azureuser/git_app_1/dist
-        exit
+        echo "Removing old dist directory..."
+        ssh azureuser@10.0.0.4 'rm -rf /home/azureuser/git_app_1/dist'
+        echo "Copying new build to Private VM..."
         scp -r ./dist azureuser@10.0.0.4:/home/azureuser/git_app_1/
+
 
     - name: Restart Nginx on Private VM
       run: |
