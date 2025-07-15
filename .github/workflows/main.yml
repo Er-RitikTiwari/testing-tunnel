@@ -24,18 +24,17 @@ jobs:
     - name: Build React App
       run: npm run build
 
-    - name: Copy build to Private VM
+    - name: Copy build through Bastion
       run: |
-        - name: Copy build through Bastion
-          echo "📦 Step 1: Copy dist to Bastion server..."
-          scp -r ./dist azureuser@20.63.24.50:/home/azureuser/
-          echo "🧹 Step 2: Remove old dist from Private VM..."
-          ssh azureuser@20.63.24.50 'ssh azureuser@10.0.0.4 "rm -rf /home/azureuser/git_app_1/dist"'
-          echo "📤 Step 3: Copy new dist from Bastion to Private VM..."
-          ssh azureuser@20.63.24.50 'scp -r /home/azureuser/dist azureuser@10.0.0.4:/home/azureuser/git_app_1/'
-          echo "🧼 Step 4: Remove dist from Bastion server..."
-          ssh azureuser@20.63.24.50 'rm -rf /home/azureuser/dist'
-   
+        echo "📦 Step 1: Copy dist to Bastion server..."
+        scp -r ./dist azureuser@20.63.24.50:/home/azureuser/
+        echo "🧹 Step 2: Remove old dist from Private VM..."
+        ssh azureuser@20.63.24.50 'ssh azureuser@10.0.0.4 "rm -rf /home/azureuser/git_app_1/dist"'
+        echo "📤 Step 3: Copy new dist from Bastion to Private VM..."
+        ssh azureuser@20.63.24.50 'scp -r /home/azureuser/dist azureuser@10.0.0.4:/home/azureuser/git_app_1/'
+        echo "🧼 Step 4: Remove dist from Bastion server..."
+        ssh azureuser@20.63.24.50 'rm -rf /home/azureuser/dist'
+  
 
     - name: Restart Nginx on Private VM
       run: |
