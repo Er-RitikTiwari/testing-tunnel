@@ -41,5 +41,5 @@ jobs:
 
     - name: Restart Nginx on Private VM
       run: |
-        echo "Restarting Nginx on Private VM..."
+        echo "Restarting Nginx on Private VM...."
         ssh azureuser@10.0.0.4 'sudo systemctl restart nginx'
