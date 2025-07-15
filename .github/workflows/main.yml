@@ -26,11 +26,18 @@ jobs:
 
     - name: Copy build to Private VM
       run: |
-        echo "Removing old dist directory..."
+        echo "Copying the dist to the basion server..."
+        scp -r ./dist azureuser@20.63.24.50:/home/azureuser/
+        echo "ssh to basion server..."
+        ssh azureuser@20.63.24.50 
+        echo "Remove the dist from vm.."
         ssh azureuser@10.0.0.4 'rm -rf /home/azureuser/git_app_1/dist'
-        echo "Copying new build to Private VM..."
+        echo "Back to the basion server..."
+        exit
+        echo "Copying the dist to the vm from basion server..."
         scp -r ./dist azureuser@10.0.0.4:/home/azureuser/git_app_1/
-
+        echo "Removing  the dist from basion server..."
+        sudo -rm -r ./dist
 
     - name: Restart Nginx on Private VM
       run: |
